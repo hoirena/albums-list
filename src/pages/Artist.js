@@ -8,7 +8,7 @@ import Header from '../components/Header';
 function Artist() {
     const { id } = useParams();
     const idNum = parseInt(id);
-    const [albums, setAlbums] = useState([]);
+    const [albums, setAlbums] = useState([]); 
     const [author, setAuthor] = useState({});
 
     async function fetchData () {

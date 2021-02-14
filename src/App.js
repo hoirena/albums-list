@@ -12,7 +12,6 @@ function App() {
         <Switch>
             <Route path="/artist/:id" exact component={Artist} />
             <Route path="/" exact component={Home} />
-            {/* <Route path="/" exact component={Home} /> */}
         </Switch>
         </div>
     </Router>

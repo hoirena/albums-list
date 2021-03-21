@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './pages/Home';
 import Artist from './pages/Artist';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.scss';
 
@@ -9,10 +9,8 @@ function App() {
     return (
     <Router>
         <div className="app">
-        <Switch>
-            <Route path="/artist/:id" exact component={Artist} />
             <Route path="/" exact component={Home} />
-        </Switch>
+            <Route path="/artist/:id" exact component={Artist} />
         </div>
     </Router>
     );

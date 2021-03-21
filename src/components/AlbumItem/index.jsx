@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import axios from "axios";
+import axios from "../../axios";
+
+import config from '../../config';
 
 import './AlbumItem.scss';
-    
+
 const AlbumItem = ({ album, author }) => {
     const [favorite, setFavorite] = useState(album.favorite);
     const date = new Date(album.releaseDate);
     const markFavoriteText = favorite ? "Remove favorite" : "Mark as favorite"
     const activeClass = favorite ? "active" : "";
+    const env = config[process.env.NODE_ENV];
+
     const onClickHandler = () => {
-        axios.patch(`http://localhost:3004/albums/${album.id}`, {favorite: !favorite})
+        axios.patch(`${env.baseURL}/albums/${album.id}`, {favorite: !favorite});
         setFavorite(!favorite);
     }
 
@@ -37,7 +41,8 @@ const AlbumItem = ({ album, author }) => {
 
 AlbumItem.propTypes = {
     album: PropTypes.object,
-    author: PropTypes.object
+    author: PropTypes.object,
+    env: PropTypes.object
 }
 
 export default AlbumItem;

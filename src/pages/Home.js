@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import config from '../config';
+
 import Header from '../components/Header';
 import AlbumItem from '../components/AlbumItem';
 
@@ -8,14 +10,14 @@ function Home() {
     const [albums, setAlbums] = useState([]);
     const [authors, setAuthors] = useState([]);
     const [search, setSearch] = useState('');
+    const env = config[process.env.NODE_ENV];
 
     let reducedAlbums = [];
     let location = useLocation();
 
     async function fetchData () {
-        const authors = await fetch("http://localhost:3004/artists/").then(res => res.json());
-        const albums = await fetch("http://localhost:3004/albums/").then(response => response.json());
-
+        const authors = await fetch(`${env.baseURL}/artists/`).then(res => res.json());
+        const albums = await fetch(`${env.baseURL}/albums/`).then(response => response.json());
         setAlbums(albums);
         setAuthors(authors);
     }
@@ -43,7 +45,7 @@ function Home() {
 
     const renderAlbums = reducedAlbums.map((album, index) => {
         const author = authors.find(author => author.id === album.artistId);
-        return <AlbumItem album={album} author={author} key={index} />;
+        return <AlbumItem album={album} author={author} key={index} env={env} />;
     });
 
     return (

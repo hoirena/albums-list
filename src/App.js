@@ -1,18 +1,16 @@
 import React from 'react';
 import Home from './pages/Home';
 import Artist from './pages/Artist';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import './App.scss';
 
 function App() {
     return (
-    <Router>
         <div className="app">
-            <Route path="/" exact component={Home} />
-            <Route path="/artist/:id" exact component={Artist} />
+            <Route path={`${process.env.PUBLIC_URL}/`} exact component={Home} />
+            <Route path={`${process.env.PUBLIC_URL}/artist/:id`} component={Artist} />
         </div>
-    </Router>
     );
 }
 

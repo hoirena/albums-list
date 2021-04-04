@@ -15,7 +15,11 @@ const AlbumItem = ({ album, author }) => {
     const env = config[process.env.NODE_ENV];
 
     const onClickHandler = () => {
-        axios.patch(`${env.baseURL}/albums/${album.id}`, {favorite: !favorite});
+        axios.patch(`${env.baseURL}/albums/${album.id}`, {favorite: !favorite}).then(res => {
+            console.log('patch response: ', res);
+        }).catch(error => {
+            console.error(error.response);
+        })
         setFavorite(!favorite);
     }
 
@@ -26,7 +30,7 @@ const AlbumItem = ({ album, author }) => {
                 <div className="name-wrapper">
                     <h2><cite>{album.title}</cite></h2>
                     <address  className="gray-text" rel="author">
-                        <Link to={"/artist/" + author.id}>
+                        <Link to={`${process.env.PUBLIC_URL}/artist/` + author.id}>
                             {author.title}
                         </Link>
                     </address>

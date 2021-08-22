@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './Header.scss';
 
 const Header = ({ title, setSearch }) => {
-    const search = () => {
+    const renderSearch = () => {
         const onKeyDown = (e) => {
             if (e.key === 'Enter') {
                 const searchString = e.target.value.toLowerCase();
@@ -27,7 +27,7 @@ const Header = ({ title, setSearch }) => {
         <header>
             <div>
                 <h1>{title}</h1>
-                {setSearch ? search() : null}
+                {setSearch ? renderSearch() : null}
             </div>
         </header>
     );

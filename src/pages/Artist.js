@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import axios from "../axios";
 
 import config from '../config';
 
@@ -14,12 +15,9 @@ function Artist() {
     const [author, setAuthor] = useState({});
     const env = config[process.env.NODE_ENV];
 
-    async function fetchData () {
-        const fetchAuthor = await fetch(`${env.baseURL}/artists/${idNum}`).then(res => res.json());
-        const albums = await fetch(`${env.baseURL}/albums/`).then(response => response.json());
-
-        setAlbums(albums);
-        setAuthor(fetchAuthor);
+    function fetchData () {
+        axios.get(`${env.baseURL}/artists/${idNum}`).then(response => setAuthor(response.data));
+        axios.get(`${env.baseURL}/albums/`).then(response => setAlbums(response.data));
     }
 
     const renderAuthorsAlbums = albums.map((album, index) => {
@@ -30,13 +28,11 @@ function Artist() {
         }
     });
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    useEffect(fetchData, [env, idNum]);
 
     return (
         <>
-            <Header title={author.title} />
+            <Header title={ author?.title} />
             {!albums.length ? <p>Loading author's albums...</p> : null}
             {renderAuthorsAlbums}
         </>

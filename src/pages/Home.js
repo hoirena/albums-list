@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from "../axios";
 
 import config from '../config';
 
@@ -15,16 +16,12 @@ function Home() {
     let reducedAlbums = [];
     let location = useLocation();
 
-    async function fetchData () {
-        const authors = await fetch(`${env.baseURL}/artists/`).then(res => res.json());
-        const albums = await fetch(`${env.baseURL}/albums/`).then(response => response.json());
-        setAlbums(albums);
-        setAuthors(authors);
+    function fetchData () {
+        axios.get(`${env.baseURL}/artists/`).then(response => setAuthors(response.data));
+        axios.get(`${env.baseURL}/albums/`).then(response => setAlbums(response.data));
     }
 
-    useEffect(() => {
-        fetchData();
-    }, [search]);
+    useEffect(fetchData, [search, env]);
 
     if (location.search.substr(0, 7) === "?limit=") {
         const limitRegEx = location.search.match(/=([0-9]+)$/);
@@ -44,7 +41,7 @@ function Home() {
     }
 
     const renderAlbums = reducedAlbums.map((album, index) => {
-        const author = authors.find(author => author.id === album.artistId);
+        const author = authors?.find(author => author.id === album.artistId);
         return <AlbumItem album={album} author={author} key={index} env={env} />;
     });
 
